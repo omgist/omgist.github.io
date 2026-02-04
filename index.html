@@ -1,7 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Research Group | Home</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --ink: #0f172a;
+      --muted: #475569;
+      --accent: #2563eb;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+    header {
+      background: #0f172a;
+      color: #fff;
+      padding: 48px 24px 36px;
+    }
+    header .wrap,
+    main .wrap,
+    footer .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    h1 { margin: 0 0 8px; font-size: 2.2rem; }
+    .subtitle { margin: 0; color: #e2e8f0; }
+    .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+    }
+    main { padding: 32px 24px 48px; }
+    .section { margin-bottom: 28px; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+      border: 1px solid #e2e8f0;
+    }
+    .card h3 { margin-top: 0; }
+    .meta { color: var(--muted); font-size: 0.95rem; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .pill-list span {
+      display: inline-block;
+      background: #e2e8f0;
+      color: #1e293b;
+      padding: 6px 10px;
+      border-radius: 999px;
+      margin: 6px 6px 0 0;
+      font-size: 0.85rem;
+    }
+    footer {
+      background: #0f172a;
+      color: #cbd5f5;
+      padding: 20px 24px;
+    }
+  </style>
+</head>
 <body>
-  <h1>Hello World!</h1>
-  <p>My first GitHub Pages site</p>
+  <header>
+    <div class="wrap">
+      <div class="badge">Research Group</div>
+      <h1>[Your Research Group Name]</h1>
+      <p class="subtitle">We develop methods in <strong>[broad field]</strong> with applications in <strong>[domain]</strong> and <strong>[domain]</strong>.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section class="section">
+        <h2>About Us</h2>
+        <p>We are based in the <strong>[Department]</strong> at <strong>[University]</strong>. Our team combines theory and practice to build reliable, impactful systems. We collaborate with academic and industry partners to translate research into real-world outcomes.</p>
+        <div class="pill-list">
+          <span>[Research Area 1]</span>
+          <span>[Research Area 2]</span>
+          <span>[Research Area 3]</span>
+          <span>[Research Area 4]</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Awesome Projects</h2>
+        <div class="cards">
+          <article class="card">
+            <h3>Project Alpha</h3>
+            <p class="meta">[Short one-line description of the project impact.]</p>
+            <p>Focus: <strong>[topic]</strong> · Status: <strong>[ongoing/completed]</strong></p>
+            <p><a href="/projects/project-alpha.html">View project details →</a></p>
+          </article>
+
+          <article class="card">
+            <h3>Project Beta</h3>
+            <p class="meta">[Short one-line description of the project impact.]</p>
+            <p>Focus: <strong>[topic]</strong> · Status: <strong>[ongoing/completed]</strong></p>
+            <p><a href="/projects/project-beta.html">View project details →</a></p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Get in Touch</h2>
+        <p>Email: <a href="mailto:group@university.edu">group@university.edu</a></p>
+        <p>Address: [Building, Street, City, Country]</p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">© 2026 [Your Research Group Name]. All rights reserved.</div>
+  </footer>
 </body>
 </html>
