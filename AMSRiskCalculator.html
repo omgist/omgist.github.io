@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Adult Moyamoya Stroke Risk Calculator | 成人烟雾病卒中风险分数计算器</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成人烟雾病卒中风险计算器 | Adult Moyamoya Stroke Risk Calculator</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -33,7 +33,13 @@
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: #f8fafc;
-            -webkit-tap-highlight-color: transparent;
+        }
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #0284c7;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #0284c7;
         }
         @media print {
             .no-print {
@@ -52,23 +58,23 @@
 
     <!-- HEADER -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm no-print">
-        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between">
-            <div class="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
-                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-medical-600 text-white flex-shrink-0 flex items-center justify-center shadow-md shadow-medical-500/20">
-                    <i class="fa-solid fa-brain text-lg sm:text-xl"></i>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-medical-600 text-white flex items-center justify-center shadow-md shadow-medical-500/20">
+                    <i class="fa-solid fa-brain text-xl"></i>
                 </div>
-                <div class="min-w-0">
-                    <h1 class="text-sm sm:text-lg font-bold text-slate-900 leading-tight truncate" data-lang-zh="成人烟雾病缺血/出血卒中风险计算器" data-lang-en="Adult Moyamoya Disease Stroke Risk Calculator">
-                        Adult Moyamoya Disease Stroke Risk Calculator
+                <div>
+                    <h1 class="text-lg font-bold text-slate-900 leading-tight" data-lang-zh="成人烟雾病卒中风险计算器" data-lang-en="Adult Moyamoya Disease Stroke Risk Calculator">
+                        成人烟雾病卒中风险计算器
                     </h1>
-                    <p class="text-[11px] sm:text-xs text-slate-500 truncate hidden xs:block sm:block" data-lang-zh="基于临床与影像特征的诺莫图预测系统" data-lang-en="Nomogram-based Stroke Risk Prediction System">
-                        Nomogram-based Stroke Risk Prediction System
+                    <p class="text-xs text-slate-500" data-lang-zh="基于临床特征的预测系统" data-lang-en="Stroke Risk Prediction System">
+                        基于临床特征的预测系统
                     </p>
                 </div>
             </div>
 
             <!-- Top Header Actions -->
-            <div class="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
+            <div class="flex items-center space-x-3">
                 <!-- Print Report Button -->
                 <button onclick="window.print()" class="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition">
                     <i class="fa-solid fa-print"></i>
@@ -76,7 +82,7 @@
                 </button>
 
                 <!-- Language Switcher -->
-                <button id="langToggleBtn" onclick="toggleLanguage()" class="inline-flex items-center space-x-1.5 sm:space-x-2 px-2.5 py-1.5 sm:px-3 text-xs font-semibold text-medical-700 bg-medical-50 hover:bg-medical-100 rounded-lg border border-medical-200 transition">
+                <button id="langToggleBtn" onclick="toggleLanguage()" class="inline-flex items-center space-x-2 px-3 py-1.5 text-xs font-semibold text-medical-700 bg-medical-50 hover:bg-medical-100 rounded-lg border border-medical-200 transition">
                     <i class="fa-solid fa-globe"></i>
                     <span id="langText">中文</span>
                 </button>
@@ -85,57 +91,57 @@
     </header>
 
     <!-- MAIN CONTAINER -->
-    <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 w-full flex-grow">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow">
         
         <!-- Top Info Banner -->
-        <div class="mb-4 sm:mb-6 p-3.5 sm:p-4 bg-medical-50 border border-medical-200 rounded-2xl flex items-start space-x-2.5 sm:space-x-3 no-print">
-            <i class="fa-solid fa-circle-info text-medical-600 text-base sm:text-lg mt-0.5 flex-shrink-0"></i>
+        <div class="mb-6 p-4 bg-medical-50 border border-medical-200 rounded-2xl flex items-start space-x-3 no-print">
+            <i class="fa-solid fa-circle-info text-medical-600 text-lg mt-0.5"></i>
             <div class="text-xs sm:text-sm text-slate-700">
-                <p class="font-semibold text-slate-900 mb-0.5" data-lang-zh="工具使用说明" data-lang-en="Instructions">Instructions</p>
-                <p class="text-[11px] sm:text-xs leading-relaxed" data-lang-zh="本计算器用于评估成人烟雾病（MMD）患者的卒中风险。请输入患者身高体重计算BMI，并勾选各项临床危险因素，系统将自动汇总分数并预测1年、3年及5年风险概率。" data-lang-en="This calculator estimates stroke risk for adult patients with Moyamoya Disease (MMD). Input patient height & weight for BMI and select risk factors to compute total score and 1, 3, and 5-year stroke risk probabilities.">
-                    This calculator estimates stroke risk for adult patients with Moyamoya Disease (MMD). Input patient height & weight for BMI and select risk factors to compute total score and 1, 3, and 5-year stroke risk probabilities.
+                <p class="font-semibold text-slate-900 mb-0.5" data-lang-zh="工具使用说明" data-lang-en="Instructions">工具使用说明</p>
+                <p data-lang-zh="本计算器用于评估成人烟雾病（MMD）患者的卒中风险。请输入患者身高体重计算BMI，并勾选各项临床危险因素，系统将自动汇总分数并预测1年、3年及5年风险概率。" data-lang-en="This calculator estimates stroke risk for adult patients with Moyamoya Disease (MMD). Input patient height & weight for BMI and select risk factors to compute total score and 1, 3, and 5-year stroke risk probabilities.">
+                    本计算器用于评估成人烟雾病（MMD）患者的卒中风险。请输入患者身高体重计算BMI，并勾选各项临床危险因素，系统将自动汇总分数并预测1年、3年及5年风险概率。
                 </p>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 items-start">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <!-- LEFT COLUMN: Patient Inputs (5 cols on large screens, full width on mobile) -->
-            <div class="lg:col-span-5 bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 sm:space-y-6">
+            <!-- LEFT COLUMN: Patient Inputs (5 cols on large screens) -->
+            <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
                 
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3 sm:pb-4 gap-2">
-                    <h2 class="text-sm sm:text-base font-bold text-slate-900 flex items-center space-x-2 min-w-0">
-                        <i class="fa-solid fa-sliders text-medical-600 flex-shrink-0"></i>
-                        <span class="truncate" data-lang-zh="患者临床特征输入" data-lang-en="Clinical Characteristics">Clinical Characteristics</span>
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <h2 class="text-base font-bold text-slate-900 flex items-center space-x-2">
+                        <i class="fa-solid fa-sliders text-medical-600"></i>
+                        <span data-lang-zh="患者临床特征输入" data-lang-en="Clinical Characteristics">患者临床特征输入</span>
                     </h2>
-                    <div class="flex items-center space-x-1.5 flex-shrink-0">
-                        <button onclick="loadPreset('low')" class="text-[11px] sm:text-xs px-2 py-1 bg-emerald-50 text-emerald-700 rounded-md hover:bg-emerald-100 active:bg-emerald-200 transition font-medium" data-lang-zh="预设:低风险" data-lang-en="Preset: Low">Preset: Low</button>
-                        <button onclick="loadPreset('high')" class="text-[11px] sm:text-xs px-2 py-1 bg-rose-50 text-rose-700 rounded-md hover:bg-rose-100 active:bg-rose-200 transition font-medium" data-lang-zh="预设:高风险" data-lang-en="Preset: High">Preset: High</button>
+                    <div class="space-x-1">
+                        <button onclick="loadPreset('low')" class="text-xs px-2 py-1 bg-emerald-50 text-emerald-700 rounded hover:bg-emerald-100 transition" data-lang-zh="预设:低风险" data-lang-en="Preset: Low">低风险预设</button>
+                        <button onclick="loadPreset('high')" class="text-xs px-2 py-1 bg-rose-50 text-rose-700 rounded hover:bg-rose-100 transition" data-lang-zh="预设:高风险" data-lang-en="Preset: High">高风险预设</button>
                     </div>
                 </div>
 
-                <form id="riskForm" onsubmit="event.preventDefault(); calculateRisk();" class="space-y-4 sm:space-y-5">
+                <form id="riskForm" onsubmit="event.preventDefault(); calculateRisk();" class="space-y-5">
                     
                     <!-- 1. Height & Weight (BMI Calculation) -->
-                    <div class="p-3.5 sm:p-4 bg-slate-50 rounded-xl border border-slate-200/80 space-y-3">
-                        <div class="flex flex-col xs:flex-row xs:items-center justify-between gap-1">
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/80 space-y-3">
+                        <div class="flex items-center justify-between">
                             <label class="text-xs font-bold uppercase tracking-wider text-slate-600 flex items-center space-x-1">
                                 <i class="fa-solid fa-weight-scale text-slate-400"></i>
-                                <span data-lang-zh="1. 身体质量指数 (BMI)" data-lang-en="1. Body Mass Index (BMI)">1. Body Mass Index (BMI)</span>
+                                <span data-lang-zh="1. 身体质量指数 (BMI)" data-lang-en="1. Body Mass Index (BMI)">1. 身体质量指数 (BMI)</span>
                             </label>
-                            <span class="text-[11px] text-slate-500 font-medium" data-lang-zh="标准: BMI ≥ 28 赋 85.87 分" data-lang-en="Cutoff: BMI ≥ 28 (+85.87 pts)">
-                                Cutoff: BMI ≥ 28 (+85.87 pts)
+                            <span class="text-xs font-semibold text-slate-500" data-lang-zh="标准: BMI ≥ 28 赋 85.87 分" data-lang-en="Cutoff: BMI ≥ 28 (+85.87 pts)">
+                                标准: BMI ≥ 28 赋 85.87 分
                             </span>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-2.5 sm:gap-3">
+                        <div class="grid grid-cols-2 gap-3">
                             <div>
-                                <label class="block text-[11px] sm:text-xs font-medium text-slate-600 mb-1" data-lang-zh="身高 (cm)" data-lang-en="Height (cm)">Height (cm)</label>
-                                <input type="number" id="heightInput" min="100" max="230" value="170" step="0.5" oninput="updateBMI()" class="w-full px-3 py-2 text-xs sm:text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-medical-500 focus:border-medical-500 outline-none transition">
+                                <label class="block text-xs font-medium text-slate-600 mb-1" data-lang-zh="身高 (cm)" data-lang-en="Height (cm)">身高 (cm)</label>
+                                <input type="number" id="heightInput" min="100" max="230" value="170" step="0.5" oninput="updateBMI()" class="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-medical-500 focus:border-medical-500 outline-none transition">
                             </div>
                             <div>
-                                <label class="block text-[11px] sm:text-xs font-medium text-slate-600 mb-1" data-lang-zh="体重 (kg)" data-lang-en="Weight (kg)">Weight (kg)</label>
-                                <input type="number" id="weightInput" min="30" max="200" value="70" step="0.5" oninput="updateBMI()" class="w-full px-3 py-2 text-xs sm:text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-medical-500 focus:border-medical-500 outline-none transition">
+                                <label class="block text-xs font-medium text-slate-600 mb-1" data-lang-zh="体重 (kg)" data-lang-en="Weight (kg)">体重 (kg)</label>
+                                <input type="number" id="weightInput" min="30" max="200" value="70" step="0.5" oninput="updateBMI()" class="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-medical-500 focus:border-medical-500 outline-none transition">
                             </div>
                         </div>
 
@@ -152,125 +158,126 @@
                     </div>
 
                     <!-- 2. Gender Selection -->
-                    <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200/80 gap-2">
+                    <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200/80">
                         <div>
-                            <div class="text-xs font-bold text-slate-800" data-lang-zh="2. 性别 (Sex)" data-lang-en="2. Sex">2. Sex</div>
-                            <div class="text-[11px] text-slate-500" data-lang-zh="阳性/男性 赋 57.676 分" data-lang-en="Positive/Male (+57.676 pts)">Positive/Male (+57.676 pts)</div>
+                            <div class="text-xs font-bold text-slate-800" data-lang-zh="2. 性别 (Sex)" data-lang-en="2. Sex">2. 性别 (Sex)</div>
+                            <div class="text-[11px] text-slate-500" data-lang-zh="阳性/男性 赋 57.676 分" data-lang-en="Positive/Male (+57.676 pts)">阳性/男性 赋 57.676 分</div>
                         </div>
-                        <select id="sexSelect" onchange="calculateRisk()" class="px-2.5 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-medical-500 outline-none cursor-pointer">
-                            <option value="0" data-lang-zh="阴性/女性 (0分)" data-lang-en="Female/Neg (0 pts)">Female/Neg (0 pts)</option>
-                            <option value="1" data-lang-zh="阳性/男性 (57.68分)" data-lang-en="Male/Pos (+57.68 pts)">Male/Pos (+57.68 pts)</option>
+                        <select id="sexSelect" onchange="calculateRisk()" class="px-3 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-medical-500 outline-none">
+                            <option value="0" data-lang-zh="阴性/女性 (0分)" data-lang-en="Female/Neg (0 pts)">阴性/女性 (0分)</option>
+                            <option value="1" data-lang-zh="阳性/男性 (57.68分)" data-lang-en="Male/Pos (+57.68 pts)">阳性/男性 (57.68分)</option>
                         </select>
                     </div>
 
                     <!-- Binary Clinical Factors Checklists -->
-                    <div class="space-y-2">
-                        <p class="text-xs font-bold uppercase tracking-wider text-slate-500" data-lang-zh="合并症与病史评估" data-lang-en="Comorbidities & History">Comorbidities & History</p>
+                    <div class="space-y-2.5">
+                        <p class="text-xs font-bold uppercase tracking-wider text-slate-500" data-lang-zh="合并症与病史评估" data-lang-en="Comorbidities & History">合并症与病史评估</p>
                         
+                        <!-- Factor item generator placeholder in JS or static inputs -->
                         <!-- Hyperhomocysteinemia -->
-                        <label class="flex items-center justify-between p-3 bg-white hover:bg-slate-50 active:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer transition select-none">
-                            <div class="pr-2">
-                                <span class="text-xs font-bold text-slate-800 block" data-lang-zh="高同型半胱氨酸血症" data-lang-en="Hyperhomocysteinemia">Hyperhomocysteinemia</span>
-                                <span class="text-[11px] text-slate-500" data-lang-zh="Hyperhomocysteinemia (+36.15 分)" data-lang-en="+36.14604 points">+36.14604 points</span>
+                        <label class="flex items-center justify-between p-3 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 cursor-pointer transition">
+                            <div>
+                                <span class="text-xs font-bold text-slate-800 block" data-lang-zh="高同型半胱氨酸血症" data-lang-en="Hyperhomocysteinemia">高同型半胱氨酸血症</span>
+                                <span class="text-[11px] text-slate-500" data-lang-zh="Hyperhomocysteinemia (+36.15 分)" data-lang-en="+36.14604 points">+36.15 分</span>
                             </div>
-                            <input type="checkbox" id="f_hcy" onchange="calculateRisk()" class="w-4 h-4 text-medical-600 border-slate-300 rounded focus:ring-medical-500 cursor-pointer flex-shrink-0">
+                            <input type="checkbox" id="f_hcy" onchange="calculateRisk()" class="w-4 h-4 text-medical-600 border-slate-300 rounded focus:ring-medical-500">
                         </label>
 
                         <!-- Hyperlipidemia -->
-                        <label class="flex items-center justify-between p-3 bg-white hover:bg-slate-50 active:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer transition select-none">
-                            <div class="pr-2">
-                                <span class="text-xs font-bold text-slate-800 block" data-lang-zh="高脂血症" data-lang-en="Hyperlipidemia">Hyperlipidemia</span>
-                                <span class="text-[11px] text-slate-500" data-lang-zh="Hyperlipidemia (+12.17 分)" data-lang-en="+12.16659 points">+12.16659 points</span>
+                        <label class="flex items-center justify-between p-3 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 cursor-pointer transition">
+                            <div>
+                                <span class="text-xs font-bold text-slate-800 block" data-lang-zh="高脂血症" data-lang-en="Hyperlipidemia">高脂血症</span>
+                                <span class="text-[11px] text-slate-500" data-lang-zh="Hyperlipidemia (+12.17 分)" data-lang-en="+12.16659 points">+12.17 分</span>
                             </div>
-                            <input type="checkbox" id="f_lipid" onchange="calculateRisk()" class="w-4 h-4 text-medical-600 border-slate-300 rounded focus:ring-medical-500 cursor-pointer flex-shrink-0">
+                            <input type="checkbox" id="f_lipid" onchange="calculateRisk()" class="w-4 h-4 text-medical-600 border-slate-300 rounded focus:ring-medical-500">
                         </label>
 
                         <!-- Hypertension -->
-                        <label class="flex items-center justify-between p-3 bg-white hover:bg-slate-50 active:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer transition select-none">
-                            <div class="pr-2">
-                                <span class="text-xs font-bold text-slate-800 block" data-lang-zh="高血压" data-lang-en="Hypertension">Hypertension</span>
-                                <span class="text-[11px] text-slate-500" data-lang-zh="Hypertension (+58.10 分)" data-lang-en="+58.09599 points">+58.09599 points</span>
+                        <label class="flex items-center justify-between p-3 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 cursor-pointer transition">
+                            <div>
+                                <span class="text-xs font-bold text-slate-800 block" data-lang-zh="高血压" data-lang-en="Hypertension">高血压</span>
+                                <span class="text-[11px] text-slate-500" data-lang-zh="Hypertension (+58.10 分)" data-lang-en="+58.09599 points">+58.10 分</span>
                             </div>
-                            <input type="checkbox" id="f_htn" onchange="calculateRisk()" class="w-4 h-4 text-medical-600 border-slate-300 rounded focus:ring-medical-500 cursor-pointer flex-shrink-0">
+                            <input type="checkbox" id="f_htn" onchange="calculateRisk()" class="w-4 h-4 text-medical-600 border-slate-300 rounded focus:ring-medical-500">
                         </label>
 
                         <!-- Lesion Vascular Occlusion -->
-                        <label class="flex items-center justify-between p-3 bg-white hover:bg-slate-50 active:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer transition select-none">
-                            <div class="pr-2">
-                                <span class="text-xs font-bold text-slate-800 block" data-lang-zh="病变血管闭塞" data-lang-en="Lesion Vascular Occlusion">Lesion Vascular Occlusion</span>
-                                <span class="text-[11px] text-slate-500" data-lang-zh="Lesion Vascular Occlusion (+100.00 分)" data-lang-en="+100.00000 points">+100.00000 points</span>
+                        <label class="flex items-center justify-between p-3 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 cursor-pointer transition">
+                            <div>
+                                <span class="text-xs font-bold text-slate-800 block" data-lang-zh="病变血管闭塞" data-lang-en="Lesion Vascular Occlusion">病变血管闭塞</span>
+                                <span class="text-[11px] text-slate-500" data-lang-zh="Lesion Vascular Occlusion (+100.00 分)" data-lang-en="+100.00000 points">+100.00 分</span>
                             </div>
-                            <input type="checkbox" id="f_occlusion" onchange="calculateRisk()" class="w-4 h-4 text-medical-600 border-slate-300 rounded focus:ring-medical-500 cursor-pointer flex-shrink-0">
+                            <input type="checkbox" id="f_occlusion" onchange="calculateRisk()" class="w-4 h-4 text-medical-600 border-slate-300 rounded focus:ring-medical-500">
                         </label>
 
                         <!-- Past History of Stroke -->
-                        <label class="flex items-center justify-between p-3 bg-white hover:bg-slate-50 active:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer transition select-none">
-                            <div class="pr-2">
-                                <span class="text-xs font-bold text-slate-800 block" data-lang-zh="脑卒中既往史" data-lang-en="Past History of Stroke">Past History of Stroke</span>
-                                <span class="text-[11px] text-slate-500" data-lang-zh="Past history of Stroke (+33.48 分)" data-lang-en="+33.47865 points">+33.47865 points</span>
+                        <label class="flex items-center justify-between p-3 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 cursor-pointer transition">
+                            <div>
+                                <span class="text-xs font-bold text-slate-800 block" data-lang-zh="脑卒中既往史" data-lang-en="Past History of Stroke">脑卒中既往史</span>
+                                <span class="text-[11px] text-slate-500" data-lang-zh="Past history of Stroke (+33.48 分)" data-lang-en="+33.47865 points">+33.48 分</span>
                             </div>
-                            <input type="checkbox" id="f_stroke" onchange="calculateRisk()" class="w-4 h-4 text-medical-600 border-slate-300 rounded focus:ring-medical-500 cursor-pointer flex-shrink-0">
+                            <input type="checkbox" id="f_stroke" onchange="calculateRisk()" class="w-4 h-4 text-medical-600 border-slate-300 rounded focus:ring-medical-500">
                         </label>
 
                         <!-- Smoking -->
-                        <label class="flex items-center justify-between p-3 bg-white hover:bg-slate-50 active:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer transition select-none">
-                            <div class="pr-2">
-                                <span class="text-xs font-bold text-slate-800 block" data-lang-zh="吸烟史" data-lang-en="Smoking History">Smoking History</span>
-                                <span class="text-[11px] text-slate-500" data-lang-zh="Smoking (+63.14 分)" data-lang-en="+63.14189 points">+63.14189 points</span>
+                        <label class="flex items-center justify-between p-3 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 cursor-pointer transition">
+                            <div>
+                                <span class="text-xs font-bold text-slate-800 block" data-lang-zh="吸烟史" data-lang-en="Smoking History">吸烟史</span>
+                                <span class="text-[11px] text-slate-500" data-lang-zh="Smoking (+63.14 分)" data-lang-en="+63.14189 points">+63.14 分</span>
                             </div>
-                            <input type="checkbox" id="f_smoke" onchange="calculateRisk()" class="w-4 h-4 text-medical-600 border-slate-300 rounded focus:ring-medical-500 cursor-pointer flex-shrink-0">
+                            <input type="checkbox" id="f_smoke" onchange="calculateRisk()" class="w-4 h-4 text-medical-600 border-slate-300 rounded focus:ring-medical-500">
                         </label>
 
                         <!-- TIA -->
-                        <label class="flex items-center justify-between p-3 bg-white hover:bg-slate-50 active:bg-slate-100 rounded-xl border border-slate-200 cursor-pointer transition select-none">
-                            <div class="pr-2">
-                                <span class="text-xs font-bold text-slate-800 block" data-lang-zh="短暂性脑缺血发作 (TIA)" data-lang-en="Transient Ischemic Attack (TIA)">Transient Ischemic Attack (TIA)</span>
-                                <span class="text-[11px] text-slate-500" data-lang-zh="TIA (+92.20 分)" data-lang-en="+92.19525 points">+92.19525 points</span>
+                        <label class="flex items-center justify-between p-3 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 cursor-pointer transition">
+                            <div>
+                                <span class="text-xs font-bold text-slate-800 block" data-lang-zh="短暂性脑缺血发作 (TIA)" data-lang-en="Transient Ischemic Attack (TIA)">短暂性脑缺血发作 (TIA)</span>
+                                <span class="text-[11px] text-slate-500" data-lang-zh="TIA (+92.20 分)" data-lang-en="+92.19525 points">+92.20 分</span>
                             </div>
-                            <input type="checkbox" id="f_tia" onchange="calculateRisk()" class="w-4 h-4 text-medical-600 border-slate-300 rounded focus:ring-medical-500 cursor-pointer flex-shrink-0">
+                            <input type="checkbox" id="f_tia" onchange="calculateRisk()" class="w-4 h-4 text-medical-600 border-slate-300 rounded focus:ring-medical-500">
                         </label>
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="pt-2 flex space-x-2.5 sm:space-x-3">
-                        <button type="button" onclick="calculateRisk()" class="flex-1 py-3 px-4 bg-medical-600 hover:bg-medical-700 active:bg-medical-800 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg shadow-medical-600/20 active:scale-[0.98] transition flex items-center justify-center space-x-2 cursor-pointer">
+                    <div class="pt-2 flex space-x-3">
+                        <button type="button" onclick="calculateRisk()" class="flex-1 py-3 px-4 bg-medical-600 hover:bg-medical-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-medical-600/20 active:scale-[0.99] transition flex items-center justify-center space-x-2">
                             <i class="fa-solid fa-calculator"></i>
-                            <span data-lang-zh="立即计算风险" data-lang-en="Calculate Risk">Calculate Risk</span>
+                            <span data-lang-zh="立即计算风险" data-lang-en="Calculate Risk">立即计算风险</span>
                         </button>
-                        <button type="button" onclick="resetForm()" class="px-3.5 sm:px-4 py-3 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-600 font-semibold text-xs sm:text-sm rounded-xl transition cursor-pointer">
+                        <button type="button" onclick="resetForm()" class="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold text-sm rounded-xl transition">
                             <i class="fa-solid fa-rotate-left"></i>
                         </button>
                     </div>
                 </form>
             </div>
 
-            <!-- RIGHT COLUMN: Calculation Results & Visual Analytics -->
-            <div class="lg:col-span-7 space-y-4 sm:space-y-6">
+            <!-- RIGHT COLUMN: Calculation Results & Visual Analytics (7 cols on large screens) -->
+            <div class="lg:col-span-7 space-y-6">
                 
                 <!-- Main Score Card -->
-                <div id="resultCard" class="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 sm:pb-6 border-b border-slate-100 gap-3 sm:gap-4">
+                <div id="resultCard" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-100 gap-4">
                         <div>
-                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400" data-lang-zh="诺莫图预测总分" data-lang-en="Nomogram Total Score">Nomogram Total Score</span>
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400" data-lang-zh="预测总分" data-lang-en="Total Score">预测总分</span>
                             <div class="flex items-baseline space-x-2 mt-1">
-                                <span id="totalScoreText" class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">0.000</span>
-                                <span class="text-xs sm:text-sm font-semibold text-slate-500">Points</span>
+                                <span id="totalScoreText" class="text-4xl font-extrabold text-slate-900 tracking-tight">0.000</span>
+                                <span class="text-sm font-semibold text-slate-500">Points</span>
                             </div>
                         </div>
 
                         <!-- Risk Level Badge -->
                         <div class="flex flex-col items-start sm:items-end">
-                            <span class="text-[11px] sm:text-xs text-slate-400 mb-1" data-lang-zh="风险分层 (阈值: 217.20)" data-lang-en="Risk Stratification (Cutoff: 217.20)">Risk Stratification (Cutoff: 217.20)</span>
-                            <div id="riskLevelBadge" class="px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold flex items-center space-x-1.5 bg-emerald-100 text-emerald-800">
+                            <span class="text-xs text-slate-400 mb-1" data-lang-zh="风险分层 (阈值: 217.20)" data-lang-en="Risk Stratification (Cutoff: 217.20)">风险分层 (阈值: 217.20)</span>
+                            <div id="riskLevelBadge" class="px-4 py-1.5 rounded-full text-sm font-bold flex items-center space-x-1.5 bg-emerald-100 text-emerald-800">
                                 <i id="riskIcon" class="fa-solid fa-shield-halved"></i>
-                                <span id="riskLevelText" data-lang-zh="低风险 (Low Risk)" data-lang-en="Low Risk">Low Risk</span>
+                                <span id="riskLevelText" data-lang-zh="低风险 (Low Risk)" data-lang-en="Low Risk">低风险 (Low Risk)</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Visual Progress Bar relative to Cutoff (217.20) -->
+                    <!-- Visual Progress Bar relative to Cutoff (217.20) & Max Potential Score (~539 pts) -->
                     <div class="pt-4">
-                        <div class="flex justify-between text-[11px] sm:text-xs text-slate-500 mb-1 font-medium">
+                        <div class="flex justify-between text-xs text-slate-500 mb-1">
                             <span>0 pts</span>
                             <span class="font-semibold text-amber-600">Cutoff: 217.20 pts</span>
                             <span>Max: ~538.78 pts</span>
@@ -285,13 +292,13 @@
                 </div>
 
                 <!-- Stroke Risk Probabilities Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     
                     <!-- 1-Year Stroke Risk -->
-                    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-2.5 sm:space-y-3">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-3">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-slate-500 uppercase" data-lang-zh="1年卒中发生率" data-lang-en="1-Year Stroke Risk">1-Year Stroke Risk</span>
-                            <span id="tierBadge1Year" class="px-2 py-0.5 text-[11px] font-bold rounded border bg-emerald-50 text-emerald-700 border-emerald-200" data-lang-zh="低风险" data-lang-en="Low Risk">Low Risk</span>
+                            <span class="text-xs font-bold text-slate-500 uppercase" data-lang-zh="1年卒中发生率" data-lang-en="1-Year Stroke Risk">1年卒中发生率</span>
+                            <span id="tierBadge1Year" class="px-2 py-0.5 text-[11px] font-bold rounded border bg-emerald-50 text-emerald-700 border-emerald-200" data-lang-zh="低风险" data-lang-en="Low Risk">低风险</span>
                         </div>
                         <div>
                             <div id="prob1Year" class="text-2xl font-extrabold text-slate-900">13.63%</div>
@@ -300,15 +307,15 @@
                             </div>
                         </div>
                         <p class="text-[10px] text-slate-400" data-lang-zh="低:≤30.45% | 中:30.45%-46.46% | 高:>46.46%" data-lang-en="Low:≤30.45% | Mid:30.45%-46.46% | High:>46.46%">
-                            Low:≤30.45% | Mid:30.45%-46.46% | High:>46.46%
+                            低:≤30.45% | 中:30.45%-46.46% | 高:>46.46%
                         </p>
                     </div>
 
                     <!-- 3-Year Stroke Risk -->
-                    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-2.5 sm:space-y-3">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-3">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-slate-500 uppercase" data-lang-zh="3年卒中发生率" data-lang-en="3-Year Stroke Risk">3-Year Stroke Risk</span>
-                            <span id="tierBadge3Year" class="px-2 py-0.5 text-[11px] font-bold rounded border bg-emerald-50 text-emerald-700 border-emerald-200" data-lang-zh="低风险" data-lang-en="Low Risk">Low Risk</span>
+                            <span class="text-xs font-bold text-slate-500 uppercase" data-lang-zh="3年卒中发生率" data-lang-en="3-Year Stroke Risk">3年卒中发生率</span>
+                            <span id="tierBadge3Year" class="px-2 py-0.5 text-[11px] font-bold rounded border bg-emerald-50 text-emerald-700 border-emerald-200" data-lang-zh="低风险" data-lang-en="Low Risk">低风险</span>
                         </div>
                         <div>
                             <div id="prob3Year" class="text-2xl font-extrabold text-slate-900">18.53%</div>
@@ -317,15 +324,15 @@
                             </div>
                         </div>
                         <p class="text-[10px] text-slate-400" data-lang-zh="低:≤41.26% | 中:41.26%-59.52% | 高:>59.52%" data-lang-en="Low:≤41.26% | Mid:41.26%-59.52% | High:>59.52%">
-                            Low:≤41.26% | Mid:41.26%-59.52% | High:>59.52%
+                            低:≤41.26% | 中:41.26%-59.52% | 高:>59.52%
                         </p>
                     </div>
 
                     <!-- 5-Year Survival / Risk Probability -->
-                    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-2.5 sm:space-y-3">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-3">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-slate-500 uppercase" data-lang-zh="5年卒中/事件概率" data-lang-en="5-Year Probability">5-Year Probability</span>
-                            <span id="tierBadge5Year" class="px-2 py-0.5 text-[11px] font-bold rounded border bg-emerald-50 text-emerald-700 border-emerald-200" data-lang-zh="低风险" data-lang-en="Low Risk">Low Risk</span>
+                            <span class="text-xs font-bold text-slate-500 uppercase" data-lang-zh="5年卒中/事件概率" data-lang-en="5-Year Probability">5年卒中/事件概率</span>
+                            <span id="tierBadge5Year" class="px-2 py-0.5 text-[11px] font-bold rounded border bg-emerald-50 text-emerald-700 border-emerald-200" data-lang-zh="低风险" data-lang-en="Low Risk">低风险</span>
                         </div>
                         <div>
                             <div id="prob5Year" class="text-2xl font-extrabold text-slate-900">21.65%</div>
@@ -334,35 +341,35 @@
                             </div>
                         </div>
                         <p class="text-[10px] text-slate-400" data-lang-zh="低:≤48.28% | 中:48.28%-66.98% | 高:>66.98%" data-lang-en="Low:≤48.28% | Mid:48.28%-66.98% | High:>66.98%">
-                            Low:≤48.28% | Mid:48.28%-66.98% | High:>66.98%
+                            低:≤48.28% | 中:48.28%-66.98% | 高:>66.98%
                         </p>
                     </div>
                 </div>
 
                 <!-- Chart Component -->
-                <div class="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3 sm:space-y-4">
-                    <h3 class="text-xs sm:text-sm font-bold text-slate-900 flex items-center space-x-2">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-sm font-bold text-slate-900 flex items-center space-x-2">
                         <i class="fa-solid fa-chart-bar text-medical-600"></i>
-                        <span data-lang-zh="各危险因素得分贡献分解图" data-lang-en="Factor Score Breakdown">Factor Score Breakdown</span>
+                        <span data-lang-zh="各危险因素得分贡献分解图" data-lang-en="Factor Score Breakdown">各危险因素得分贡献分解图</span>
                     </h3>
-                    <div class="h-60 sm:h-56 relative">
+                    <div class="h-56 relative">
                         <canvas id="factorChart"></canvas>
                     </div>
                 </div>
 
                 <!-- Score Breakdown Detail Table -->
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                    <div class="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
-                        <h3 class="text-xs sm:text-sm font-bold text-slate-900" data-lang-zh="细分计分明细表" data-lang-en="Itemized Score Table">Itemized Score Table</h3>
-                        <span class="text-[11px] text-slate-400" data-lang-zh="已映射权重" data-lang-en="Mapped Weights">Mapped Weights</span>
+                    <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-slate-900" data-lang-zh="细分计分明细表" data-lang-en="Itemized Score Table">细分计分明细表</h3>
+                        <span class="text-xs text-slate-400" data-lang-zh="已映射权重" data-lang-en="Mapped Weights">已映射权重</span>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left text-xs text-slate-600 min-w-[420px]">
+                        <table class="w-full text-left text-xs text-slate-600">
                             <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200">
                                 <tr>
-                                    <th class="py-2.5 sm:py-3 px-3 sm:px-4" data-lang-zh="风险因素" data-lang-en="Risk Factor">Risk Factor</th>
-                                    <th class="py-2.5 sm:py-3 px-3 sm:px-4" data-lang-zh="状态/测量值" data-lang-en="Status / Value">Status / Value</th>
-                                    <th class="py-2.5 sm:py-3 px-3 sm:px-4 text-right" data-lang-zh="赋予得分" data-lang-en="Points Assigned">Points Assigned</th>
+                                    <th class="py-3 px-4" data-lang-zh="风险因素" data-lang-en="Risk Factor">风险因素</th>
+                                    <th class="py-3 px-4" data-lang-zh="状态/测量值" data-lang-en="Status / Value">状态/测量值</th>
+                                    <th class="py-3 px-4 text-right" data-lang-zh="赋予得分" data-lang-en="Points Assigned">赋予得分</th>
                                 </tr>
                             </thead>
                             <tbody id="breakdownTbody" class="divide-y divide-slate-100 font-mono">
@@ -376,35 +383,35 @@
         </div>
 
         <!-- Formula Reference Section -->
-        <div class="mt-6 sm:mt-8 bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3 sm:space-y-4">
-            <h3 class="text-xs sm:text-sm font-bold text-slate-900 flex items-center space-x-2 border-b border-slate-100 pb-2.5 sm:pb-3">
+        <div class="mt-8 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+            <h3 class="text-sm font-bold text-slate-900 flex items-center space-x-2 border-b border-slate-100 pb-3">
                 <i class="fa-solid fa-square-root-variable text-medical-600"></i>
-                <span data-lang-zh="算式与模型方程依据" data-lang-en="Calculations & Model Equations">Calculations & Model Equations</span>
+                <span data-lang-zh="算式与模型方程依据" data-lang-en="Calculations & Model Equations">算式与模型方程依据</span>
             </h3>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 text-xs text-slate-600">
-                <div class="space-y-2 bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200/80">
-                    <p class="font-bold text-slate-800" data-lang-zh="总分 Y 计算公式:" data-lang-en="Total Score (Y) Formula:">Total Score (Y) Formula:</p>
-                    <p class="font-mono text-[10px] sm:text-[11px] text-slate-700 leading-relaxed bg-white p-2 rounded border border-slate-200 overflow-x-auto whitespace-nowrap sm:whitespace-normal">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-slate-600">
+                <div class="space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-200/80">
+                    <p class="font-bold text-slate-800" data-lang-zh="总分 Y 计算公式:" data-lang-en="Total Score (Y) Formula:">总分 Y 计算公式:</p>
+                    <p class="font-mono text-[11px] text-slate-700 leading-relaxed bg-white p-2 rounded border border-slate-200 overflow-x-auto">
                         Y = 85.87081×X1 + 36.14604×X2 + 12.16659×X3 + 58.09599×X4 + 100.00000×X5 + 33.47865×X6 + 57.67557×X7 + 63.14189×X8 + 92.19525×X9
                     </p>
-                    <ul class="list-disc list-inside space-y-1 text-[10px] sm:text-[11px] text-slate-500 pt-1">
-                        <li>X1: BMI ≥ 28 (1pt) | X2: Hyperhomocysteinemia | X3: Hyperlipidemia</li>
-                        <li>X4: Hypertension | X5: Lesion Vascular Occlusion | X6: Past Stroke</li>
-                        <li>X7: Sex(Male/Pos) | X8: Smoking | X9: TIA</li>
+                    <ul class="list-disc list-inside space-y-1 text-[11px] text-slate-500 pt-1">
+                        <li>X1: BMI ≥ 28 (1分) | X2: 高同型半胱氨酸血症 | X3: 高脂血症</li>
+                        <li>X4: 高血压 | X5: 病变血管闭塞 | X6: 脑卒中既往史</li>
+                        <li>X7: 性别(阳性/男) | X8: 吸烟史 | X9: TIA (短暂性脑缺血发作)</li>
                     </ul>
                 </div>
 
-                <div class="space-y-2 bg-slate-50 p-3.5 sm:p-4 rounded-xl border border-slate-200/80">
-                    <p class="font-bold text-slate-800" data-lang-zh="卒中发生概率拟合方程 (P 为总分):" data-lang-en="Stroke Risk Equations (P = points):">Stroke Risk Equations (P = points):</p>
-                    <div class="space-y-1.5 font-mono text-[10px] sm:text-[11px] text-slate-700 overflow-x-auto">
-                        <div class="bg-white p-2 rounded border border-slate-200 whitespace-nowrap sm:whitespace-normal">
+                <div class="space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-200/80">
+                    <p class="font-bold text-slate-800" data-lang-zh="卒中发生概率拟合方程 (P 为总分):" data-lang-en="Stroke Risk Equations (P = points):">卒中发生概率拟合方程 (P 为总分):</p>
+                    <div class="space-y-1.5 font-mono text-[11px] text-slate-700">
+                        <div class="bg-white p-2 rounded border border-slate-200">
                             <strong>1-Year Risk:</strong> [1 - (5.19e-9 × P³ - 5.35e-6 × P² - 0.000142 × P + 0.863670905)] × 100%
                         </div>
-                        <div class="bg-white p-2 rounded border border-slate-200 whitespace-nowrap sm:whitespace-normal">
+                        <div class="bg-white p-2 rounded border border-slate-200">
                             <strong>3-Year Risk:</strong> [1 - (7.80e-9 × P³ - 6.22e-6 × P² - 0.000399 × P + 0.814708685)] × 100%
                         </div>
-                        <div class="bg-white p-2 rounded border border-slate-200 whitespace-nowrap sm:whitespace-normal">
+                        <div class="bg-white p-2 rounded border border-slate-200">
                             <strong>5-Year Prob:</strong> [1 - (8.32e-9 × P³ - 5.83e-6 × P² - 0.000703 × P + 0.783462770)] × 100%
                         </div>
                     </div>
@@ -415,19 +422,19 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-white border-t border-slate-200 py-4 sm:py-6 text-center text-xs text-slate-400 no-print">
-        <div class="max-w-7xl mx-auto px-4 space-y-1.5 sm:space-y-2">
-            <p class="text-[11px] sm:text-xs" data-lang-zh="免责声明：本计算器仅供临床研究与辅助参考，不能替代专业医师的临床诊断和决定。" data-lang-en="Disclaimer: This calculator is intended for clinical research and educational reference only. It should not replace professional medical judgment.">
-                Disclaimer: This calculator is intended for clinical research and educational reference only. It should not replace professional medical judgment.
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400 no-print">
+        <div class="max-w-7xl mx-auto px-4 space-y-2">
+            <p data-lang-zh="免责声明：本计算器仅供临床研究与辅助参考，不能替代专业医师的临床诊断和决定。" data-lang-en="Disclaimer: This calculator is intended for clinical research and educational reference only. It should not replace professional medical judgment.">
+                免责声明：本计算器仅供临床研究与辅助参考，不能替代专业医师的临床诊断和决定。
             </p>
-            <p class="text-[11px] sm:text-xs">© 2026 Adult Moyamoya Disease Stroke Nomogram Calculator</p>
+            <p>© 2026 Adult Moyamoya Disease Stroke Calculator</p>
         </div>
     </footer>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Global State - Default Language set to English
-        let currentLang = 'en'; 
+        // Global State
+        let currentLang = 'en'; // Default set to English
         let chartInstance = null;
 
         // Factors Mapping Dictionary
@@ -582,31 +589,32 @@
             scoreBar.style.width = percentOfMax + '%';
 
             if (isHighRisk) {
-                badge.className = "px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold flex items-center space-x-1.5 bg-rose-100 text-rose-800 border border-rose-200 animate-pulse";
+                badge.className = "px-4 py-1.5 rounded-full text-sm font-bold flex items-center space-x-1.5 bg-rose-100 text-rose-800 border border-rose-200 animate-pulse";
                 riskText.innerText = currentLang === 'zh' ? "高风险 (High Risk)" : "High Risk";
                 riskIcon.className = "fa-solid fa-triangle-exclamation text-rose-600";
                 scoreBar.className = "h-full bg-rose-500 transition-all duration-500 rounded-full";
             } else {
-                badge.className = "px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold flex items-center space-x-1.5 bg-emerald-100 text-emerald-800 border border-emerald-200";
+                badge.className = "px-4 py-1.5 rounded-full text-sm font-bold flex items-center space-x-1.5 bg-emerald-100 text-emerald-800 border border-emerald-200";
                 riskText.innerText = currentLang === 'zh' ? "低风险 (Low Risk)" : "Low Risk";
                 riskIcon.className = "fa-solid fa-shield-halved text-emerald-600";
                 scoreBar.className = "h-full bg-emerald-500 transition-all duration-500 rounded-full";
             }
 
             // Calculations based on Polynomial Risk Equations:
+            // P = totalScore
             const P = totalScore;
 
-            // 1-Year Stroke Probability
+            // 1-Year Stroke Probability = [1 - ( 5.19e-09 * P^3 + -5.35e-06 * P^2 + -0.000142 * P + 0.863670905 )] * 100
             const poly1 = 5.19e-9 * Math.pow(P, 3) - 5.35e-6 * Math.pow(P, 2) - 0.000142 * P + 0.863670905;
             let prob1 = (1 - poly1) * 100;
             prob1 = Math.min(100, Math.max(0, prob1));
 
-            // 3-Year Stroke Probability
+            // 3-Year Stroke Probability = [1 - ( 7.80e-09 * P^3 + -6.22e-06 * P^2 + -0.000399 * P + 0.814708685 )] * 100
             const poly3 = 7.80e-9 * Math.pow(P, 3) - 6.22e-6 * Math.pow(P, 2) - 0.000399 * P + 0.814708685;
             let prob3 = (1 - poly3) * 100;
             prob3 = Math.min(100, Math.max(0, prob3));
 
-            // 5-Year Survival / Risk Probability
+            // 5-Year Survival / Risk Probability = [1 - ( 8.32e-09 * P^3 + -5.83e-06 * P^2 + -0.000703 * P + 0.783462770 )] * 100
             const poly5 = 8.32e-9 * Math.pow(P, 3) - 5.83e-6 * Math.pow(P, 2) - 0.000703 * P + 0.783462770;
             let prob5 = (1 - poly5) * 100;
             prob5 = Math.min(100, Math.max(0, prob5));
@@ -668,7 +676,7 @@
             const tbody = document.getElementById('breakdownTbody');
             tbody.innerHTML = '';
 
-            items.forEach((item) => {
+            items.forEach((item, index) => {
                 const tr = document.createElement('tr');
                 tr.className = item.active ? "bg-medical-50/40 font-semibold" : "hover:bg-slate-50";
 
@@ -684,12 +692,12 @@
                 const name = currentLang === 'zh' ? item.nameZh : item.nameEn;
                 
                 tr.innerHTML = `
-                    <td class="py-2 sm:py-2.5 px-3 sm:px-4 font-sans text-slate-800">
-                        <span class="text-[11px] sm:text-xs font-bold text-medical-600 mr-1.5">[${item.key}]</span>
+                    <td class="py-2.5 px-4 font-sans text-slate-800">
+                        <span class="text-xs font-bold text-medical-600 mr-1.5">[${item.key}]</span>
                         ${name}
                     </td>
-                    <td class="py-2 sm:py-2.5 px-3 sm:px-4 text-slate-600">${statusStr}</td>
-                    <td class="py-2 sm:py-2.5 px-3 sm:px-4 text-right font-bold ${item.active ? 'text-medical-700' : 'text-slate-400'}">
+                    <td class="py-2.5 px-4 text-slate-600">${statusStr}</td>
+                    <td class="py-2.5 px-4 text-right font-bold ${item.active ? 'text-medical-700' : 'text-slate-400'}">
                         +${item.earnedPoints.toFixed(3)}
                     </td>
                 `;
@@ -762,9 +770,7 @@
                             ticks: { font: { size: 10 } }
                         },
                         y: {
-                            ticks: { 
-                                font: { size: window.innerWidth < 640 ? 9 : 10 } 
-                            }
+                            ticks: { font: { size: 10 } }
                         }
                     }
                 }
