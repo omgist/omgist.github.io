@@ -306,8 +306,8 @@
                                 <div id="bar1Year" class="bg-emerald-500 h-full transition-all duration-500 rounded-full" style="width: 13.63%;"></div>
                             </div>
                         </div>
-                        <p class="text-[10px] text-slate-400" data-lang-zh="低:≤30.45% | 中:30.45%-46.46% | 高:>46.46%" data-lang-en="Low:≤30.45% | Mid:30.45%-46.46% | High:>46.46%">
-                            低:≤30.45% | 中:30.45%-46.46% | 高:>46.46%
+                        <p class="text-[10px] text-slate-400" data-lang-zh="低:≤36.64% | 高:>36.64%" data-lang-en="Low:≤36.64% | High:>36.64%">
+                            低:≤36.64% | 高:>36.64%
                         </p>
                     </div>
 
@@ -323,8 +323,8 @@
                                 <div id="bar3Year" class="bg-emerald-500 h-full transition-all duration-500 rounded-full" style="width: 18.53%;"></div>
                             </div>
                         </div>
-                        <p class="text-[10px] text-slate-400" data-lang-zh="低:≤41.26% | 中:41.26%-59.52% | 高:>59.52%" data-lang-en="Low:≤41.26% | Mid:41.26%-59.52% | High:>59.52%">
-                            低:≤41.26% | 中:41.26%-59.52% | 高:>59.52%
+                        <p class="text-[10px] text-slate-400" data-lang-zh="低:≤48.55% | 高:>48.55%" data-lang-en="Low:≤48.55% | High:>48.55%">
+                            低:≤48.55% | 高:>48.55%
                         </p>
                     </div>
 
@@ -340,8 +340,8 @@
                                 <div id="bar5Year" class="bg-emerald-500 h-full transition-all duration-500 rounded-full" style="width: 21.65%;"></div>
                             </div>
                         </div>
-                        <p class="text-[10px] text-slate-400" data-lang-zh="低:≤48.28% | 中:48.28%-66.98% | 高:>66.98%" data-lang-en="Low:≤48.28% | Mid:48.28%-66.98% | High:>66.98%">
-                            低:≤48.28% | 中:48.28%-66.98% | 高:>66.98%
+                        <p class="text-[10px] text-slate-400" data-lang-zh="低:≤55.90% | 高:>55.90%" data-lang-en="Low:≤55.90% | High:>55.90%">
+                            低:≤55.90% | 高:>55.90%
                         </p>
                     </div>
                 </div>
@@ -625,9 +625,9 @@
             document.getElementById('prob5Year').innerText = prob5.toFixed(2) + '%';
 
             // Dynamic Bar & Badge Color Updates based on Risk Tiers
-            updateYearlyRiskBar('1Year', prob1, 30.45, 46.46);
-            updateYearlyRiskBar('3Year', prob3, 41.26, 59.52);
-            updateYearlyRiskBar('5Year', prob5, 48.28, 66.98);
+            updateYearlyRiskBar('1Year', prob1, 36.64);
+            updateYearlyRiskBar('3Year', prob3, 48.55);
+            updateYearlyRiskBar('5Year', prob5, 55.90);
 
             // Update Table Breakdown
             renderTable(itemizedResults, bmi);
@@ -637,7 +637,7 @@
         }
 
         // Helper to update yearly risk bar colors and risk badges dynamically
-        function updateYearlyRiskBar(yearKey, prob, lowCut, highCut) {
+        function updateYearlyRiskBar(yearKey, prob, cutoff) {
             const bar = document.getElementById('bar' + yearKey);
             const badge = document.getElementById('tierBadge' + yearKey);
 
@@ -645,16 +645,11 @@
 
             let barBg, badgeClass, labelZh, labelEn;
 
-            if (prob <= lowCut) {
+            if (prob <= cutoff) {
                 barBg = 'bg-emerald-500';
                 badgeClass = 'px-2 py-0.5 text-[11px] font-bold rounded border bg-emerald-50 text-emerald-700 border-emerald-200';
                 labelZh = '低风险';
                 labelEn = 'Low Risk';
-            } else if (prob <= highCut) {
-                barBg = 'bg-amber-500';
-                badgeClass = 'px-2 py-0.5 text-[11px] font-bold rounded border bg-amber-50 text-amber-700 border-amber-200';
-                labelZh = '中风险';
-                labelEn = 'Moderate Risk';
             } else {
                 barBg = 'bg-rose-500';
                 badgeClass = 'px-2 py-0.5 text-[11px] font-bold rounded border bg-rose-50 text-rose-700 border-rose-200';
