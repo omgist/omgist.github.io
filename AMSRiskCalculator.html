@@ -161,11 +161,11 @@
                     <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200/80">
                         <div>
                             <div class="text-xs font-bold text-slate-800" data-lang-zh="2. 性别 (Sex)" data-lang-en="2. Sex">2. 性别 (Sex)</div>
-                            <div class="text-[11px] text-slate-500" data-lang-zh="阳性/男性 赋 57.676 分" data-lang-en="Positive/Male (+57.676 pts)">阳性/男性 赋 57.676 分</div>
+                            <div class="text-[11px] text-slate-500" data-lang-zh="女性 赋 57.676 分" data-lang-en="Female (+57.676 pts)">女性 赋 57.676 分</div>
                         </div>
                         <select id="sexSelect" onchange="calculateRisk()" class="px-3 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-medical-500 outline-none">
-                            <option value="0" data-lang-zh="阴性/女性 (0分)" data-lang-en="Female/Neg (0 pts)">阴性/女性 (0分)</option>
-                            <option value="1" data-lang-zh="阳性/男性 (57.68分)" data-lang-en="Male/Pos (+57.68 pts)">阳性/男性 (57.68分)</option>
+                            <option value="0" data-lang-zh="男性 (0分)" data-lang-en="Male (0 pts)">男性 (0分)</option>
+                            <option value="1" data-lang-zh="女性 (+57.68分)" data-lang-en="Female (+57.68 pts)">女性 (+57.68分)</option>
                         </select>
                     </div>
 
@@ -398,7 +398,7 @@
                     <ul class="list-disc list-inside space-y-1 text-[11px] text-slate-500 pt-1">
                         <li data-lang-zh="X1: BMI ≥ 28 (1分) | X2: 高同型半胱氨酸血症 | X3: 高脂血症" data-lang-en="X1: BMI ≥ 28 (1 point) | X2: Hyperhomocysteinemia | X3: Hyperlipidemia">X1: BMI ≥ 28 (1 point) | X2: Hyperhomocysteinemia | X3: Hyperlipidemia</li>
                         <li data-lang-zh="X4: 高血压 | X5: 病变血管闭塞 | X6: 脑卒中既往史" data-lang-en="X4: Hypertension | X5: Lesion Vascular Occlusion | X6: Past History of Stroke">X4: Hypertension | X5: Lesion Vascular Occlusion | X6: Past History of Stroke</li>
-                        <li data-lang-zh="X7: 性别(阳性/男) | X8: 吸烟史 | X9: TIA (短暂性脑缺血发作)" data-lang-en="X7: Sex (Male/Positive) | X8: Smoking | X9: TIA (Transient Ischemic Attack)">X7: Sex (Male/Positive) | X8: Smoking | X9: TIA (Transient Ischemic Attack)</li>
+                        <li data-lang-zh="X7: 性别(女性) | X8: 吸烟史 | X9: TIA (短暂性脑缺血发作)" data-lang-en="X7: Sex (Female) | X8: Smoking | X9: TIA (Transient Ischemic Attack)">X7: Sex (Female) | X8: Smoking | X9: TIA (Transient Ischemic Attack)</li>
                     </ul>
                 </div>
 
@@ -445,7 +445,7 @@
             { id: 'f_htn', key: 'X4', nameZh: '高血压', nameEn: 'Hypertension', weight: 58.09599 },
             { id: 'f_occlusion', key: 'X5', nameZh: '病变血管闭塞', nameEn: 'Lesion Vascular Occlusion', weight: 100.00000 },
             { id: 'f_stroke', key: 'X6', nameZh: '脑卒中既往史', nameEn: 'Past History of Stroke', weight: 33.47865 },
-            { id: 'sexSelect', key: 'X7', nameZh: '性别(阳性/男性)', nameEn: 'Sex (Male/Positive)', weight: 57.67557 },
+            { id: 'sexSelect', key: 'X7', nameZh: '性别(女性)', nameEn: 'Sex (Female)', weight: 57.67557 },
             { id: 'f_smoke', key: 'X8', nameZh: '吸烟史', nameEn: 'Smoking', weight: 63.14189 },
             { id: 'f_tia', key: 'X9', nameZh: '短暂性脑缺血发作 (TIA)', nameEn: 'TIA', weight: 92.19525 }
         ];
@@ -679,7 +679,7 @@
                 if (item.id === 'bmi') {
                     statusStr = `BMI = ${bmiVal.toFixed(2)} (${item.active ? '≥28' : '<28'})`;
                 } else if (item.id === 'sexSelect') {
-                    statusStr = item.active ? (currentLang === 'zh' ? '阳性 / 男性' : 'Male / Positive') : (currentLang === 'zh' ? '阴性 / 女性' : 'Female / Negative');
+                    statusStr = item.active ? (currentLang === 'zh' ? '女性' : 'Female') : (currentLang === 'zh' ? '男性' : 'Male');
                 } else {
                     statusStr = item.active ? (currentLang === 'zh' ? '是 (阳性)' : 'Yes (Pos)') : (currentLang === 'zh' ? '否 (阴性)' : 'No (Neg)');
                 }
